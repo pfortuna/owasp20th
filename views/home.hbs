@@ -1,0 +1,54 @@
+<div class="menu">
+    <div class="wrapper">
+        <a class="logo" href="/"><img src="/imgs/bank-logo.svg"></a>
+        <div class="menu-right"><span>By</span><img src="/imgs/logo.svg"></div>
+    </div>
+</div>    
+<div class="page">
+    <div class="wrapper">
+        <div class="page-content">
+            <h1>Sign In To Your Online Account</h1>
+            <div class="table">
+                <div class="row2 vert-center grey-back"><img class="bg-card" src="/imgs/img-bg.jpg">
+                    <div class="grey-back-text">
+                        <h6>Online Security</h6>
+                        <p>Report any suspicious situation to:
+                            <br> Call 555-2368 (24/7)</p>
+                        <h6>Access to online banking</h6>
+                        <p><a href="#">Join</a>
+                            <br><a href="#">Reactivate Service</a>
+                            <br><a href="#">Request Secret Token</a></p>
+                    </div>
+                </div>
+                <form class="row2" id="login-form" action="/account" method="post">
+                    <h5>Enter your credentials<br> and press the<b> Sign In</b> button</h5>
+                    <label for="id">Online ID</label>
+                    <input id="id" type="text" name="id">
+                    <label for="password">Password</label>
+                    <input class="input" id="password" type="password" name="password">
+                    <div class="simple-keyboard"></div>
+                    <div>
+                        <input class="submit" type="submit" value="Sign In">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <div class="row">
+        <jscrambler>Virtual Bank © All rights reserved</jscrambler>
+    </div>
+</div>
+{{#if config.thirdPartyiframed}}
+    <!-- iframed version -->
+    <div class="iframew">
+        <iframe class="cbi" src="http://chatbot.virtualbank.com:3000/iframe"></iframe>
+    </div>
+{{else}}
+    {{#if config.thirdPartyCompromised}}
+        <script src="http://chatbot.com:3000/js/chatbot-compromised.js"></script>
+    {{else}}
+        <script src="http://chatbot.com:3000/js/chatbot.js"></script>
+    {{/if}}
+{{/if}}
