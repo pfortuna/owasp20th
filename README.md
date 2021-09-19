@@ -1,4 +1,4 @@
-# OWASP 20th Anniversary talk - Achieve Web Isolation Nirvana
+# OWASP 20th Anniversary talk - Achieving Web Isolation Nirvana
 ## Configuration
 ### Setup
 Add the following to your /etc/hosts

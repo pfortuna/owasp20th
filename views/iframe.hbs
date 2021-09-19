@@ -3,6 +3,10 @@
     <link href="/css/iframe.css" rel="stylesheet">
 </head>
 <body>
-    <script src="http://chatbot.com:3000/js/chatbot.js"></script>
+    {{#if config.thirdPartyCompromised}}
+        <script src="http://chatbot.com:3000/js/chatbot-compromised.js"></script>
+    {{else}}
+        <script src="http://chatbot.com:3000/js/chatbot.js"></script>
+    {{/if}}
 </body>
 </html>

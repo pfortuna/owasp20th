@@ -22,7 +22,6 @@ app.get('/', (req, res) => {
     res.render('home', {config: config});
 });
 
-//app.use(bodyParser.json());
 app.use(express.urlencoded({extended: true}));
 app.post('/account', async (req, res) => {
   await serverLoginProcess();
@@ -32,7 +31,7 @@ app.post('/account', async (req, res) => {
   })
 });
 app.get('/iframe', (req, res) => {
-  res.render('iframe', {layout: false});
+  res.render('iframe', {layout: false, config: config});
 });
 
 const server = app.listen(process.env.PORT || 3000, () => {

