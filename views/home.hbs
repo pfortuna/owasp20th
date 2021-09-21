@@ -35,10 +35,35 @@
         </div>
     </div>
 </div>
-<div class="footer">
+<div class="footer">    
     <div class="row">
         <jscrambler>Virtual Bank © All rights reserved</jscrambler>
     </div>
+    <form method="get" id="formdemo">
+    <div class="row">
+        <div class="demoform">
+            <div class="dfrow">
+                <span class="label"><label for="">Compromised 3rd Party</label></span>
+                <span class="formitem"><input id="compromised" type="checkbox" name="thirdPartyCompromised"></span>
+            </div>
+            <div class="dfrow">
+                <span class="label"><label for="">Iframed 3rd Party</label></span>
+                <span class="formitem"><input id="iframed" type="checkbox" name="thirdPartyiframed"></span>
+            </div>
+            <div class="dfrow">
+                <span class="label"><label for="">Google Caja</label></span>
+                <span class="formitem"><input id="caja" type="checkbox" name="caja"></span>
+            </div>                
+            <div class="dfrow">
+                <span class="label"><label for="">Monitoring agent</label></span>
+                <span class="formitem"><input id="agent" type="checkbox" name="agent"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <span><input class="submit" id="reload" type="submit" value="Reload"></span>
+    </div>
+    </form>
 </div>
 {{#if config.thirdPartyiframed}}
     <!-- iframed version -->

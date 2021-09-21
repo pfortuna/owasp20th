@@ -625,3 +625,17 @@ margin: auto 0;
   width: 80px;
   height: 80px;
 }
+
+.demoform {
+  margin-top: 50px;
+}
+
+.demoform .dfrow .label {
+  width: 5%;
+}
+
+span > .submit {
+  background-color: var(--light-grey);
+  width: 120px;
+  cursor: hand;
+}

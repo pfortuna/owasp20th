@@ -5,7 +5,8 @@ const app = express();
 const config = {
   agent: false,
   thirdPartyiframed: false,
-  thirdPartyCompromised: false
+  thirdPartyCompromised: false,
+  caja: false
 }
 
 app.set('view engine', 'hbs');
@@ -18,8 +19,21 @@ app.engine('hbs', handlebars({
 app.use(express.static('public'));
 app.set('views', 'views');
 
-app.get('/', (req, res) => {
-    res.render('home', {config: config});
+app.get('/', (req, res) => {  
+  function setConfig(p) {
+    if (req.query[p]) config[p] = true;
+    else config[p] = false;
+  }
+  setConfig("agent");
+  setConfig("thirdPartyiframed");
+  setConfig("thirdPartyCompromised");
+  setConfig("caja");
+  console.dir(config);
+  if (config.agent) req.app.locals.layout = "main-agent";
+  else req.app.locals.layout = "main";
+  console.log("layout: " + req.app.locals.layout);
+
+  res.render('home', {config: config});
 });
 
 app.use(express.urlencoded({extended: true}));
