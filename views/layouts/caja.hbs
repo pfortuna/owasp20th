@@ -1,0 +1,48 @@
+<html>
+<head>
+    <link href="/css/iframe.css" rel="stylesheet">
+</head>
+<body>
+    {{#if config.enableCaja}}
+        <script>
+            lockdown();
+            let safeDoc = {
+                appendChild: function appendChild() { document.appendChild.apply(document, arguments); },
+                createElement: function createElement() { document.createElement.apply(document, arguments); }
+            }
+            const compartment = new Compartment({
+                console,
+                document: safeDoc                    
+            });
+            const dependency = new Compartment({}, {}, {
+                resolveHook: (moduleSpecifier, moduleReferrer) =>
+                    resolve(moduleSpecifier, moduleReferrer),
+                importHook: async moduleSpecifier => {
+                    const moduleLocation = locate(moduleSpecifier);
+                    const moduleText = await retrieve(moduleLocation);
+                    return new ModuleStaticRecord(moduleText, moduleLocation);
+                },
+            });
+        </script>
+    {{/if}}
+    {{#if config.thirdPartyCompromised}}
+        <script>
+            const application = new Compartment({}, {
+                'dependency': dependency.module('./js/chatbot-compromised.js'),
+            }, {
+                resolveHook,
+                importHook,
+            });
+        </script>
+    {{else}}
+        <script>
+            const application = new Compartment({}, {
+                'dependency': dependency.module('./js/chatbot.js'),
+            }, {
+                resolveHook,
+                importHook,
+            });
+        </script>
+    {{/if}}
+</body>
+</html>
