@@ -13,7 +13,7 @@ app.set('view engine', 'hbs');
 app.engine('hbs', handlebars({
   layoutsDir: __dirname + '/views/layouts',
   extname: 'hbs',
-  defaultLayout: (config.agent && 'main-agent') || 'main'
+  defaultLayout: 'main'
 }));
 
 app.use(express.static('public'));
@@ -30,6 +30,7 @@ app.get('/', (req, res) => {
   setConfig("caja");
   console.dir(config);
   if (config.agent) req.app.locals.layout = "main-agent";
+  else if (config.caja) req.app.locals.layout = "main-caja";
   else req.app.locals.layout = "main";
   console.log("layout: " + req.app.locals.layout);
 

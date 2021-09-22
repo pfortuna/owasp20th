@@ -1,6 +1,6 @@
 <div class="menu">
     <div class="wrapper">
-        <a class="logo" href="/"><img src="/imgs/bank-logo.svg"></a>
+        <a class="logo" href="."><img src="/imgs/bank-logo.svg"></a>
         <div class="menu-right"><span>By</span><img src="/imgs/logo.svg"></div>
     </div>
 </div>    
@@ -44,11 +44,11 @@
         <div class="demoform">
             <div class="dfrow">
                 <span class="label"><label for="">Compromised 3rd Party</label></span>
-                <span class="formitem"><input id="compromised" type="checkbox" name="thirdPartyCompromised"></span>
+                <span class="formitem"><input id="thirdPartyCompromised" type="checkbox" name="thirdPartyCompromised"></span>
             </div>
             <div class="dfrow">
                 <span class="label"><label for="">Iframed 3rd Party</label></span>
-                <span class="formitem"><input id="iframed" type="checkbox" name="thirdPartyiframed"></span>
+                <span class="formitem"><input id="thirdPartyiframed" type="checkbox" name="thirdPartyiframed"></span>
             </div>
             <div class="dfrow">
                 <span class="label"><label for="">Google Caja</label></span>
@@ -65,15 +65,64 @@
     </div>
     </form>
 </div>
-{{#if config.thirdPartyiframed}}
-    <!-- iframed version -->
-    <div class="iframew">
-        <iframe class="cbi" src="http://chatbot.virtualbank.com:3000/iframe"></iframe>
-    </div>
-{{else}}
+{{#if config.caja}}
+    <script>
+        lockdown();
+        let safeDoc = {
+            appendChild: function appendChild() { document.appendChild.apply(document, arguments); },
+            createElement: function createElement() { document.createElement.apply(document, arguments); }
+        }
+        const compartment = new Compartment({
+            console,
+            document: safeDoc                    
+        });
+        const dependency = new Compartment({}, {}, {
+            resolveHook: (moduleSpecifier, moduleReferrer) =>
+                resolve(moduleSpecifier, moduleReferrer),
+            importHook: async moduleSpecifier => {
+                const moduleLocation = locate(moduleSpecifier);
+                const moduleText = await retrieve(moduleLocation);
+                return new ModuleStaticRecord(moduleText, moduleLocation);
+            },
+        });
+    </script>
     {{#if config.thirdPartyCompromised}}
-        <script src="http://chatbot.com:3000/js/chatbot-compromised.js"></script>
+        <script>
+            const application = new Compartment({}, {
+                'dependency': dependency.module('./js/chatbot-compromised.js'),
+            }, {
+                resolveHook,
+                importHook,
+            });
+        </script>
     {{else}}
-        <script src="http://chatbot.com:3000/js/chatbot.js"></script>
+        <script>
+            const application = new Compartment({}, {
+                'dependency': dependency.module('./js/chatbot.js'),
+            }, {
+                resolveHook,
+                importHook,
+            });
+        </script>
+    {{/if}}    
+{{else}}
+    {{#if config.thirdPartyiframed}}
+        <!-- iframed version -->
+        <div class="iframew">
+            <iframe class="cbi" src="http://chatbot.virtualbank.com:3000/iframe"></iframe>
+        </div>
+    {{else}}
+        {{#if config.thirdPartyCompromised}}
+            <script src="http://chatbot.com:3000/js/chatbot-compromised.js"></script>
+        {{else}}
+            <script src="http://chatbot.com:3000/js/chatbot.js"></script>
+        {{/if}}
     {{/if}}
 {{/if}}
+<script>
+    location.search.substring(1).split("&").forEach(function(e) {
+        var i = e.split("=")[0];
+        document.querySelector("#"+i).checked = true;
+    });
+</script>
+
