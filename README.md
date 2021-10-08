@@ -15,9 +15,3 @@ You can set three properties in the `config` object in `index.js`
 ## Running
 To run, type `npm run watch`
 Open `http://virtualbank.com:3000`
-
-### ToDo List
-- adding agent to iframe domain
-- caja part
-- nice to haves
-  - moving everything to ssl port 443
